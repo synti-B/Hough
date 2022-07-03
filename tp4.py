@@ -8,7 +8,7 @@ import cv2 as cv
 import numpy as np
 def main(argv):
     
-    default_file = 'tp4-iaa.png'
+    default_file = 'tp4-ia.png'
     filename = argv[0] if len(argv) > 0 else default_file
     # Carga una imagen
     src = cv.imread(cv.samples.findFile(filename), cv.IMREAD_GRAYSCALE)
@@ -25,7 +25,7 @@ def main(argv):
     cdst = cv.cvtColor(dst, cv.COLOR_GRAY2BGR)
     cdstP = np.copy(cdst)
      # Transformación estándar de la línea de Hough
-    lines = cv.HoughLines(dst, 1, np.pi / 180, 150, None, 0, 0)
+    lines = cv.HoughLines(dst, 1, np.pi / 100, 100, None, 0, 0)
     
     if lines is not None:
         for i in range(0, len(lines)):
@@ -42,14 +42,10 @@ def main(argv):
     
     linesP = cv.HoughLinesP(dst, 1, np.pi / 180, 50, None, 50, 10)
     
-    if linesP is not None:
-        for i in range(0, len(linesP)):
-            l = linesP[i][0]
-            cv.line(cdstP, (l[0], l[1]), (l[2], l[3]), (0,0,255), 3, cv.LINE_AA)
     
-    cv.imshow("Source", src)
-    cv.imshow("Detected Lines (in red) - Standard Hough Line Transform", cdst)
-    cv.imshow("Detected Lines (in red) - Probabilistic Line Transform", cdstP)
+    cv.imshow("Fuente", src)
+    cv.imshow("Líneas detectadas (en rojo) - Transformación de línea Hough estándar", cdst)
+   
     
     cv.waitKey()
     return 0
